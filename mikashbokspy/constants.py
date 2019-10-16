@@ -28,72 +28,72 @@ class BaseEnum(Enum):
         return [enum_member.value for enum_member in cls]
 
 
-class GroupStatus(Enum):
+class GroupStatus(BaseEnum):
     DRAFT = 'DRAFT'
     ACTIVE = 'ACTIVE'
     DONE = 'DONE'
 
 
-class GroupTypes(Enum):
+class GroupTypes(BaseEnum):
     VSLA = 'VSLA'
     ROSCA = 'ROSCA'
 
 
-class GroupDayUOM(Enum):
+class GroupDayUOM(BaseEnum):
     DAY = 'DAY'
     WEEK = 'WEEK'
     MONTH = 'MONTH'
 
 
-class LoanStatus(Enum):
+class LoanStatus(BaseEnum):
     ACTIVE = 'ACTIVE'
     PAID = 'PAID'
     UNPAID = 'UNPAID'
 
 
-class MemberIdentificationType(Enum):
+class MemberIdentificationType(BaseEnum):
     VOTER = 'VOTER'
     PASSPORT = 'PASSPORT'
     NATIONAL = 'NATIONAL'
     DRIVER = 'DRIVER'
 
 
-class MemberStatus(Enum):
+class MemberStatus(BaseEnum):
     ACTIVE = 'ACTIVE'
     INACTIVE = 'INACTIVE'
     PENDING = 'PENDING'
     PROBATION = 'PROBATION'
 
 
-class ObserverStatus(Enum):
+class ObserverStatus(BaseEnum):
     ACTIVE = 'ACTIVE'
     INACTIVE = 'INACTIVE'
     REQUESTED = 'REQUESTED'
     INVALID = 'INVALID'
 
 
-class TokenDirection(Enum):
+class TokenDirection(BaseEnum):
     IN = 'IN'
     OUT = 'OUT'
 
 
-class TransactionDirection(Enum):
+class TransactionDirection(BaseEnum):
     IN = 'IN'
     OUT = 'OUT'
 
 
-class TransactionAccount(Enum):
+class TransactionAccount(BaseEnum):
     DEPOSIT = 'DEPOSIT'
     INSURANCE = 'INSURANCE'
 
 
-class TransactionPaymentMethod(Enum):
+class TransactionPaymentMethod(BaseEnum):
     CASH = 'CASH'
     MOBILE_MONEY = 'MOBILE_MONEY'
     DEBIT_CARD = 'DEBIT_CARD'
 
 
-class TransactionType(Enum):
+class TransactionType(BaseEnum):
     DEPOSIT = 'DEPOSIT'
     LOAN = 'LOAN'  # Repayments are in and disbursement are out
     INSURANCE = 'INSURANCE'  # should not be displayed in balance calculations
