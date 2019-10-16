@@ -1,0 +1,6 @@
+raven-python-lambda
+boto3
+requests
+sentry-sdk
+oauthlib
+requests_oauthlib
