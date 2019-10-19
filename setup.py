@@ -14,7 +14,7 @@ REQUIREMENTS = [str(ir.req) for ir in parse_requirements('requirements.txt', ses
 
 setup(
     name='mikashbokspy',
-    version='0.0.6',
+    version='0.0.7',
     description='Common python utilities for mikashboks microservices in a aws lambda environment',
     author='Salton Massally',
     author_email='smassally@idtlabs.xyz',

@@ -75,16 +75,13 @@ class Request:
         logging.info("Successful result returned " + str(response))
 
         result = response.json()
-        if not result or '_items' not in result:
-            logger.info("No items returned for result")
-            return None
-
-        if func:
-            logger.info("Processing " + str(result['_meta']['total']) + " records")
-            list(map(func, result['_items']))
-            if method == 'GET' and page and "_links" in result and "next" in result["_links"]:
-                logger.info("Fetching page: " + str(result['_meta']['page'] + 1))
-                self.request(result["_links"]["next"]['href'], func=func, include_params=False)
+        if func and result:
+            if "_items" in result:
+                logger.info("Processing " + str(result['_meta']['total']) + " records")
+                list(map(func, result['_items']))
+                if method == 'GET' and page and "_links" in result and "next" in result["_links"]:
+                    logger.info("Fetching page: " + str(result['_meta']['page'] + 1))
+                    self.request(result["_links"]["next"]['href'], func=func, include_params=False)
         else:
             return result
 
