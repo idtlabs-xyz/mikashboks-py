@@ -9,7 +9,7 @@ cognito_client = boto3.client('cognito-idp')
 def get_user(user_id):
     responses = cognito_client.list_users(
         UserPoolId=os.getenv("COGNITO_USERPOOL_ID"),
-        AttributesToGet=None,
+        AttributesToGet=[],
         Limit=1,
         Filter="sub = \"" + user_id + "\""
     )
