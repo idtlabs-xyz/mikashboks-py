@@ -7,9 +7,10 @@ cognito_client = boto3.client('cognito-idp')
 
 
 def get_user_attribute(user_id, attributes):
+    attributes = attributes if isinstance(attributes, list) else [attributes]
     responses = cognito_client.list_users(
         UserPoolId=os.getenv("COGNITO_USERPOOL_ID"),
-        AttributesToGet=attributes if isinstance(attributes, list) else [attributes],
+        AttributesToGet=attributes,
         Limit=1,
         Filter="sub = \"" + user_id + "\""
     )
