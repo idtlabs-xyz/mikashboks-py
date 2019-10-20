@@ -17,8 +17,9 @@ def get_user_attribute(user_id, attributes):
     if not user:
         return None
 
+    res = {}
+
     for attribute in user['Attributes']:
-        if attribute["Name"] == attribute:
-            return attribute["Value"]
-    logger.error("Could not determine " + attribute + " for user " + user_id)
-    return None
+        res[attribute["Name"]] = attribute["Value"]
+
+    return res[attributes[0]] if len(res) == 1 else res
