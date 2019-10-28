@@ -49,12 +49,15 @@ class Request:
             scopes.append(url + i)
         logger.info("auth scopes " + str(scopes))
 
-        self.client = OAuth2Session(
-            client=BackendApplicationClient(client_id=self.client_id, scope=scopes),
-            scope=scopes,
-            auto_refresh_url=self.auth_url
-        )
-        self.client.fetch_token(token_url=self.auth_url, auth=HTTPBasicAuth(self.client_id, self.client_secret))
+        try:
+            self.client = OAuth2Session(
+                client=BackendApplicationClient(client_id=self.client_id, scope=scopes),
+                scope=scopes,
+                auto_refresh_url=self.auth_url
+            )
+            self.client.fetch_token(token_url=self.auth_url, auth=HTTPBasicAuth(self.client_id, self.client_secret))
+        except Exception as e:
+            logger.exception("Error setting up oauth session")
 
     def request(self, endpoint: str, method: str = 'GET', filters: dict = None, embedded: dict = None, func=None,
                 page=True, include_params=True) -> dict:
