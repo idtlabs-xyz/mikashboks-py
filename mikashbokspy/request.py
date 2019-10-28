@@ -47,6 +47,7 @@ class Request:
         for i in os.getenv("SCOPES").split(","):
             url = self.base_url if self.base_url[-1] == '/' else self.base_url + '/'
             scopes.append(url + i)
+        logger.info("auth scopes " + str(scopes))
 
         self.client = OAuth2Session(
             client=BackendApplicationClient(client_id=self.client_id, scope=scopes),
