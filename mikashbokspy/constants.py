@@ -37,6 +37,10 @@ class GroupStatus(BaseEnum):
 class GroupTypes(BaseEnum):
     VSLA = 'VSLA'
     ROSCA = 'ROSCA'
+    Custom = 'Custom'
+    TimeDepositOpen = 'TimeDepositOpen'
+    TimeDepositFixed = 'TimeDepositFixed'
+    InsuranceFund = 'InsuranceFund'
 
 
 class GroupDayUOM(BaseEnum):
