@@ -59,7 +59,7 @@ class Request:
         except Exception as e:
             logger.exception("Error setting up oauth session")
 
-    def request(self, endpoint: str, method: str = 'GET', filters: dict = None, embedded: dict = None, func=None,
+    def get(self, endpoint: str, filters: dict = None, embedded: dict = None, func=None,
                 page=True, include_params=True) -> dict:
         params = None
         if include_params:
@@ -70,10 +70,10 @@ class Request:
                 params['embedded'] = json.dumps(embedded)
 
         try:
-            response = self.client.request(method, self.base_url + endpoint, params=params)
+            response = self.client.request('GET', self.base_url + endpoint, params=params)
         except TokenExpiredError:
             Request.instance(refresh=True)
-            response = self.client.request(method, self.base_url + endpoint, params=params)
+            response = self.client.request('GET', self.base_url + endpoint, params=params)
 
         response.raise_for_status()
         logging.info("Successful result returned " + str(response))
@@ -83,10 +83,37 @@ class Request:
             if "_items" in result:
                 logger.info("Processing " + str(result['_meta']['total']) + " records")
                 list(map(func, result['_items']))
-                if method == 'GET' and page and "_links" in result and "next" in result["_links"]:
+                if page and "_links" in result and "next" in result["_links"]:
                     logger.info("Fetching page: " + str(result['_meta']['page'] + 1))
                     self.request(result["_links"]["next"]['href'], func=func, include_params=False)
         else:
             return result
 
         return None
+
+    def request(self, endpoint: str, method: str = 'GET', filters: dict = None, embedded: dict = None, func=None,
+                page=True, include_params=True) -> dict:
+        """
+        Legacy function
+        @deprecated
+        """
+        return self.get(endpoint, filters=filters, embedded=embedded, func=func, page=page, include_params=include_params)
+
+    def _post_or_patch(self, endpoint: str, data: dict, method: str = 'POST') -> dict:
+        try:
+            response = self.client.request(method, self.base_url + endpoint, data=data)
+        except TokenExpiredError:
+            Request.instance(refresh=True)
+            response = self.client.request(method, self.base_url + endpoint, data=data)
+
+        response.raise_for_status()
+        logging.info("Successful result returned " + str(response))
+
+        return response.json()
+
+    def patch(self, endpoint: str, data: dict) -> dict:
+        return self._post_or_patch(endpoint, data, 'PATCH')
+
+    def post(self, endpoint: str, data: dict) -> dict:
+        return self._post_or_patch(endpoint, data, 'POST')
+
